@@ -1,0 +1,26 @@
+main_db: &main_db
+  username: <%= ENV.fetch('POSTGRES_USER') %>
+  password: <%= ENV.fetch('POSTGRES_PASSWORD') %>
+  database: <%= ENV.fetch('POSTGRES_DB') %>
+  host: db
+
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: <%= ENV.fetch('RAILS_MAX_THREADS') { 5 } %>
+
+development:
+  <<: *default
+  <<: *main_db
+  host: db
+
+test:
+  <<: *default
+  username: <%= ENV.fetch('TEST_POSTGRES_USER') %>
+  password: <%= ENV.fetch('TEST_POSTGRES_PASSWORD') %>
+  database: <%= ENV.fetch('TEST_POSTGRES_DB') %>
+  host: test_db
+
+production:
+  <<: *default
+  <<: *main_db
